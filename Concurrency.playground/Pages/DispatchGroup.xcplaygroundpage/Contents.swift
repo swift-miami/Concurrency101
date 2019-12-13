@@ -2,6 +2,8 @@
 
 import Foundation
 
+let dispatchGroup = DispatchGroup()
+
 let op1: () -> Void = {
     Thread.sleep(forTimeInterval: .pi)
     print("Operation 1 Complete!")
@@ -12,9 +14,7 @@ let op2: () -> Void = {
     print("Operation 2 Complete!")
 }
 
-func dispatchGroup() {
-    let dispatchGroup = DispatchGroup()
-    
+func runDispatchGroup() {
     defer {
         dispatchGroup.notify(queue: .main) {
             print("Operations Complete!")
@@ -32,25 +32,6 @@ func dispatchGroup() {
     dispatchGroup.leave()
 }
 
-func dispatchQueue() {
-    let dispatchQueue = DispatchQueue(label: "com.swiftmiami.güey")
-    
-    defer {
-        print("Operations Complete!")
-    }
-    
-    print("Started Operation 1")
-    dispatchQueue.sync {
-        op1()
-    }
-    
-    print("Started Operation 2")
-    dispatchQueue.sync {
-        op2()
-    }
-}
-
-dispatchGroup()
-//dispatchQueue()
+runDispatchGroup()
 
 //: [Next](@next)
