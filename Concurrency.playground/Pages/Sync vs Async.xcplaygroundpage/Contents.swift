@@ -6,12 +6,12 @@ let queue = DispatchQueue(label: "com.swiftmiami.parceritos",
                           attributes: .concurrent)
 
 let op1: () -> Void = {
-    Thread.sleep(forTimeInterval: 3)
+    Thread.sleep(forTimeInterval: .pi)
     print("Operation 1 Complete!")
 }
 
 let op2: () -> Void = {
-    Thread.sleep(forTimeInterval: 1)
+    Thread.sleep(forTimeInterval: .leastNormalMagnitude)
     print("Operation 2 Complete!")
 }
 

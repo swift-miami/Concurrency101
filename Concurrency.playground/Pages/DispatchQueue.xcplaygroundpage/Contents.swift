@@ -10,15 +10,11 @@ let op1: () -> Void = {
 }
 
 let op2: () -> Void = {
-    Thread.sleep(forTimeInterval: 1)
+    Thread.sleep(forTimeInterval: .leastNormalMagnitude)
     print("Operation 2 Complete!")
 }
 
-func runDispatchQueue() {
-    defer {
-        print("Operations Complete!")
-    }
-    
+func runDispatchQueue() {    
     print("Started Operation 1")
     dispatchQueue.sync {
         op1()

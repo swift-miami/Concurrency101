@@ -11,11 +11,11 @@ let op1: () -> Void = {
 }
 
 let op2: () -> Void = {
-    Thread.sleep(forTimeInterval: 1)
+    Thread.sleep(forTimeInterval: .leastNormalMagnitude)
     print("Operation 2 Complete!")
 }
 
-func serialAsync() {
+func runSerialAsync() {
     print("Started Operation 1")
     serialQueue.async {
         op1()
@@ -27,7 +27,7 @@ func serialAsync() {
     }
 }
 
-func concurrentAsync() {
+func runConcurrentAsync() {
     print("Started Operation 1")
     concurrentQueue.async {
         op1()
@@ -39,7 +39,7 @@ func concurrentAsync() {
     }
 }
 
-serialAsync()
-//concurrentAsync()
+runSerialAsync()
+//runConcurrentAsync()
 
 //: [Next](@next)

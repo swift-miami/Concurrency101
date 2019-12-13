@@ -6,11 +6,13 @@ let dispatchGroup = DispatchGroup()
 
 let op1: () -> Void = {
     Thread.sleep(forTimeInterval: .pi)
+    dispatchGroup.leave()
     print("Operation 1 Complete!")
 }
 
 let op2: () -> Void = {
-    Thread.sleep(forTimeInterval: 1)
+    Thread.sleep(forTimeInterval: .leastNormalMagnitude)
+    dispatchGroup.leave()
     print("Operation 2 Complete!")
 }
 
@@ -21,15 +23,17 @@ func runDispatchGroup() {
         }
     }
     
-    dispatchGroup.enter()
-    print("Started Operation 1")
-    op1()
-    dispatchGroup.leave()
+    DispatchQueue.global().sync {
+        print("Started Operation 1")
+        dispatchGroup.enter()
+        op1()
+    }
     
-    dispatchGroup.enter()
-    print("Started Operation 2")
-    op2()
-    dispatchGroup.leave()
+    DispatchQueue.global().sync {
+        dispatchGroup.enter()
+        print("Started Operation 2")
+        op2()
+    }
 }
 
 runDispatchGroup()
