@@ -9,5 +9,6 @@
         <page name='Thread-Safe Data Structure'/>
         <page name='OperationQueue'/>
         <page name='Semaphore'/>
+        <page name='Deadlock'/>
     </pages>
 </playground>

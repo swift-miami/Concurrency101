@@ -2,30 +2,28 @@
 
 import Foundation
 
-let dispatchQueue = DispatchQueue(label: "com.swiftmiami.güey")
+let serialQueue = DispatchQueue(label: "com.swiftmiami.güey")
 
-let op1: () -> Void = {
-    Thread.sleep(forTimeInterval: .pi)
+let workItem1 = DispatchWorkItem {
+    Thread.sleep(forTimeInterval: 3)
     print("Operation 1 Complete!")
 }
 
-let op2: () -> Void = {
-    Thread.sleep(forTimeInterval: .leastNormalMagnitude)
+let workItem2 = DispatchWorkItem {
+    Thread.sleep(forTimeInterval: 1)
     print("Operation 2 Complete!")
 }
 
-func runDispatchQueue() {    
+func runSerialQueue() {
     print("Started Operation 1")
-    dispatchQueue.sync {
-        op1()
-    }
+    serialQueue.async(execute: workItem1)
     
     print("Started Operation 2")
-    dispatchQueue.sync {
-        op2()
-    }
+    serialQueue.async(execute: workItem2)
+    
+    print("End of \(#function) scope")
 }
 
-runDispatchQueue()
+runSerialQueue()
 
 //: [Next](@next)
