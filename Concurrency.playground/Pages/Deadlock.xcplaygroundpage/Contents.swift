@@ -2,7 +2,7 @@
 
 import Foundation
 
-let serialQueue = DispatchQueue(label: "com.swiftmiami.porahiypaya", attributes: .concurrent)
+let serialQueue = DispatchQueue(label: "com.swiftmiami.porahiypaya")
 
 print(0)
 serialQueue.async {
