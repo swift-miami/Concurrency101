@@ -3,15 +3,16 @@
 import Foundation
 
 let serialQueue = DispatchQueue(label: "com.swiftmiami.chaparritas")
-let concurrentQueue = DispatchQueue(label: "com.swiftmiami.chaparritos", attributes: .concurrent)
+let concurrentQueue = DispatchQueue(label: "com.swiftmiami.chaparritos",
+                                    attributes: .concurrent)
 
 let op1: () -> Void = {
-    Thread.sleep(forTimeInterval: .pi)
+    Thread.sleep(forTimeInterval: 3)
     print("Operation 1 Complete!")
 }
 
 let op2: () -> Void = {
-    Thread.sleep(forTimeInterval: .leastNormalMagnitude)
+    Thread.sleep(forTimeInterval: 1)
     print("Operation 2 Complete!")
 }
 

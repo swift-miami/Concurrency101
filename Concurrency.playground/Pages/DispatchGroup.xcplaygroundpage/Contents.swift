@@ -5,34 +5,28 @@ import Foundation
 let dispatchGroup = DispatchGroup()
 
 let op1: () -> Void = {
-    Thread.sleep(forTimeInterval: .pi)
-    dispatchGroup.leave()
+    Thread.sleep(forTimeInterval: 3)
     print("Operation 1 Complete!")
+    dispatchGroup.leave()
 }
 
 let op2: () -> Void = {
-    Thread.sleep(forTimeInterval: .leastNormalMagnitude)
-    dispatchGroup.leave()
+    Thread.sleep(forTimeInterval: 1)
     print("Operation 2 Complete!")
+    dispatchGroup.leave()
 }
 
 func runDispatchGroup() {
-    defer {
-        dispatchGroup.notify(queue: .main) {
-            print("Operations Complete!")
-        }
-    }
+    print("Started Operation 1")
+    dispatchGroup.enter()
+    op1()
     
-    DispatchQueue.global().sync {
-        print("Started Operation 1")
-        dispatchGroup.enter()
-        op1()
-    }
+    print("Started Operation 2")
+    dispatchGroup.enter()
+    op2()
     
-    DispatchQueue.global().sync {
-        dispatchGroup.enter()
-        print("Started Operation 2")
-        op2()
+    dispatchGroup.notify(queue: .main) {
+        print("Operations Complete!")
     }
 }
 
