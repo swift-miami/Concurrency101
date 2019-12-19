@@ -10,5 +10,6 @@
         <page name='OperationQueue'/>
         <page name='Semaphore'/>
         <page name='Deadlock'/>
+        <page name='OperationQueue with Dependencies'/>
     </pages>
 </playground>
