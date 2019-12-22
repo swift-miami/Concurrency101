@@ -2,55 +2,38 @@
 
 import Foundation
 
-class ThreadsafeArray<Element> {
+final class ThreadsafeArray<Element> {
     private var data = [Element]()
-    
-    private let queue = DispatchQueue(label: "com.ñoooooooooooo.asere",
-                                      attributes: .concurrent)
-    
+    private var lock = os_unfair_lock_s()
+
     var first: Element? {
-        return data.first
+        os_unfair_lock_lock(&lock)
+        let element = data.first
+        os_unfair_lock_unlock(&lock)
+
+        return element
     }
-    
+
     func append(_ element: Element) {
-        queue.async(flags: .barrier) {
-            self.data.append(element)
+        os_unfair_lock_lock(&lock)
+        data.append(element)
+        os_unfair_lock_unlock(&lock)
+    }
+
+    func item(at index: Int) -> Element? {
+        guard
+            index >= data.startIndex,
+            index < data.endIndex
+        else {
+            return nil
         }
-    }
-    
-    func item(at index: Int) -> Element {
-        queue.sync {
-            return self.data[index]
-        }
-    }
-}
 
+        os_unfair_lock_lock(&lock)
+        let element = data[index]
+        os_unfair_lock_unlock(&lock)
 
-let array = ThreadsafeArray<Int>()
-let concurrentQueue = DispatchQueue(label: "com.swiftmiami.chaparritos",
-                                    attributes: .concurrent)
-
-let op1: () -> Void = {
-    Thread.sleep(forTimeInterval: 3)
-    array.append(1)
-}
-
-let op2: () -> Void = {
-    Thread.sleep(forTimeInterval: 1)
-    array.append(2)
-    
-}
-
-func runConcurrentAsync() {
-    concurrentQueue.async {
-        op1()
-    }
-    
-    concurrentQueue.async {
-        op2()
+        return element
     }
 }
-
-runConcurrentAsync()
 
 //: [Next](@next)
