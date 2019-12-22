@@ -25,8 +25,8 @@
 #### General Advice:
 * Avoid using concurrent queues at all cost.
     * Instead use a serial queue per sub system and use a target queue if you need subsystems to interact.
-    * Or use Combine and let  do it for you :). 
     * Reader/writer locks tend to be a source of great complexity and hard to get right, specially in Swift which is bad at atomic access. If needed it’s better to use `os_unfair_lock`
+* Combine helps handling concucrrency with its stream of events API.
 * Don’t use GlobalQueues.
    * Quote from Swift Evolution: [Fixing race conditions in async/await example](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170828/039368.html): ` dispatch_get_global_queue() is in practice on of the worst thing that the dispatch API provides`
 * Shouldn’t need to specify QoS unless for example you start a process in the main queue and want it to go in the background specifically. Otherwise let the system determine the QoS for you.
